@@ -11,12 +11,33 @@ function createSnow() {
     }
   }
   
-  // Controle de música
+// Tentar tocar a música automaticamente
+window.addEventListener('load', () => {
   const music = document.getElementById('music');
- 
-  const muteButton = document.getElementById('muteButton');
-  let isMuted = false;
+
+  if (music) {
+      const playMusic = () => {
+          music.play()
+              .then(() => {
+                  console.log("Música tocando automaticamente!");
+              })
+              .catch((err) => {
+                  console.warn(
+                      "A música foi bloqueada pelo navegador. O usuário precisa interagir com a página."
+                  );
+              });
+      };
+
+      // Tentar tocar automaticamente
+      playMusic();
+
+      // Caso falhe, reproduzir após a interação do usuário
+      document.body.addEventListener('click', playMusic, { once: true });
+  }
+});
   
+
+
   muteButton.addEventListener('click', () => {
     isMuted = !isMuted;
     music.muted = isMuted;
